@@ -1,0 +1,169 @@
+{
+  "variables": {
+    "iso_file": "",
+    "iso_sha1sum": "",
+    "root_password": "2RQrZ83i79N6szpvZNX6"
+  },
+  "builders": [
+    {
+      "name": "appcatalyst",
+      "vm_name": "photon",
+      "vmdk_name": "photon-disk1",
+      "type": "vmware-iso",
+      "headless": false,
+      "disk_size": 20480,
+      "disk_type_id": 0,
+      "guest_os_type": "other3xlinux-64",
+      "iso_url": "{{user `iso_file`}}",
+      "iso_checksum": "{{user `iso_sha1sum`}}",
+      "iso_checksum_type": "sha1",
+      "ssh_username": "root",
+      "ssh_password": "{{user `root_password`}}",
+      "ssh_wait_timeout": "60m",
+      "shutdown_command": "shutdown -h now",
+      "http_directory": "scripts",
+      "boot_wait": "5s",
+      "version": 11,
+      "vmx_data": {
+        "scsi0.virtualDev": "pvscsi",
+        "ethernet0.virtualDev": "vmxnet3",
+        "svga.vgaOnly": "true"
+        },
+      "vmx_data_post": {
+        "guestos": "vmware-photon-64",
+        "displayname": "VMware Photon",
+        "usb.present": "false"
+        },
+      "boot_command": [
+        "<esc><wait>",
+        "vmlinuz initrd=initrd.img root=/dev/ram0 loglevel=3 ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/photon-kickstart.json",
+        "<enter>"
+      ]
+    },
+    {
+      "name": "vagrant-vmware_desktop",
+      "vm_name": "photon",
+      "vmdk_name": "photon-disk1",
+      "type": "vmware-iso",
+      "headless": false,
+      "disk_size": 20480,
+      "disk_type_id": 0,
+      "guest_os_type": "other3xlinux-64",
+      "iso_url": "{{user `iso_file`}}",
+      "iso_checksum": "{{user `iso_sha1sum`}}",
+      "iso_checksum_type": "sha1",
+      "ssh_username": "root",
+      "ssh_password": "{{user `root_password`}}",
+      "ssh_wait_timeout": "60m",
+      "boot_wait": "5s",
+      "shutdown_command": "shutdown -h now",
+      "http_directory": "scripts",
+      "version": 11,
+      "vmx_data": {
+        "scsi0.virtualDev": "pvscsi",
+        "ethernet0.virtualDev": "vmxnet3"
+        },
+      "vmx_data_post": {
+        "displayname": "VMware Photon",
+        "usb.present": "false"
+        },
+        "boot_command": [
+          "<esc><wait>",
+          "vmlinuz initrd=initrd.img root=/dev/ram0 loglevel=3 ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/photon-kickstart.json",
+          "<enter>"
+        ]
+    },
+    {
+      "name": "vagrant-virtualbox",
+      "vm_name": "photon",
+      "type": "virtualbox-iso",
+      "headless": false,
+      "hard_drive_interface": "scsi",
+      "disk_size": 20480,
+      "guest_os_type": "Linux_64",
+      "iso_url": "{{user `iso_file`}}",
+      "iso_checksum": "{{user `iso_sha1sum`}}",
+      "iso_checksum_type": "sha1",
+      "ssh_username": "root",
+      "ssh_password": "{{user `root_password`}}",
+      "ssh_wait_timeout": "60m",
+      "boot_wait": "5s",
+      "http_directory": "scripts",
+      "shutdown_command": "shutdown -h now",
+      "boot_command": [
+        "<esc><wait>",
+        "vmlinuz initrd=initrd.img root=/dev/ram0 loglevel=3 ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/photon-kickstart.json",
+        "<enter>"
+      ]
+    }
+  ],
+    "provisioners": [
+    {
+      "type": "shell",
+      "script": "scripts/photon-package_provisioning.sh"
+    },
+    {
+      "type": "shell",
+      "only": ["vagrant-vmware_desktop", "vagrant-virtualbox"],
+      "script": "scripts/photon-vagrant-user_provisioning.sh"
+    },
+    {
+      "type": "shell",
+      "only": ["appcatalyst"],
+      "script": "scripts/photon-appcatalyst-user_provisioning.sh"
+    },
+    {
+      "type": "shell",
+      "only": ["vagrant-vmware_desktop", "appcatalyst"],
+      "script": "scripts/photon-sharedfolders_prep.sh"
+    },
+    {
+      "type": "shell",
+      "only": ["vagrant-virtualbox"],
+      "script": "scripts/photon-vagrant-vbox_additions.sh"
+    },
+    {
+      "type": "file",
+      "only": ["vagrant-virtualbox"],
+      "source": "scripts/photon-virtualbox-load-module.conf",
+      "destination": "/etc/modules-load.d/virtualbox.conf"
+    },
+    {
+      "type": "file",
+      "only": ["vagrant-vmware_desktop", "vagrant-virtualbox"],
+      "source": "scripts/photon-docker-unit.service",
+      "destination": "/lib/systemd/system/docker.service"
+    },
+    {
+      "type": "shell",
+      "inline": ["sed -i '/linux/ s/$/ net.ifnames=0/' /boot/grub2/grub.cfg"]
+    },
+    {
+      "type": "shell",
+      "inline": ["echo 'GRUB_CMDLINE_LINUX=\"net.ifnames=0\"' >> /etc/default/grub"]
+    },
+    {
+      "type": "shell",
+      "only": ["appcatalyst"],
+      "script": "scripts/photon-setup_docker.sh"
+    },
+    {
+      "type": "shell",
+      "script": "scripts/photon-security_check.sh"
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "vagrant",
+      "only": ["vagrant-vmware_desktop", "vagrant-virtualbox"],
+      "compression_level": 9,
+      "vagrantfile_template": "scripts/photon-vagrantfile.rb",
+      "output": "photon-{{.BuildName}}.box"
+    },
+    {
+      "type": "compress",
+      "only": ["appcatalyst"],
+      "output": "photon-{{.BuildName}}_build.tar.gz"
+    }
+  ]
+  }
