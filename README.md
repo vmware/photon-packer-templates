@@ -33,9 +33,8 @@ packer build \
        packer-photon.json
 ```
 
-There are three build targets available:
+There are two build targets available:
 
-1. `appcatalyst` - Generates the same VM that is shipped with [VMware AppCatalyst®](https://communities.vmware.com/community/vmtn/devops/vmware-appcatalyst).
 1. `vagrant-vmware_desktop` - Generates the `vmware_desktop` compatible box found on Atlas as [`vmware/photon`](https://atlas.hashicorp.com/vmware/photon).
 1. `vagrant-virtualbox` - Generates the `virtualbox` compatible box found on Atlas as [`vmware/photon`](https://atlas.hashicorp.com/vmware/photon).
 

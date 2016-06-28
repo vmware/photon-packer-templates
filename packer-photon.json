@@ -6,41 +6,6 @@
   },
   "builders": [
     {
-      "name": "appcatalyst",
-      "vm_name": "photon",
-      "vmdk_name": "photon-disk1",
-      "type": "vmware-iso",
-      "headless": false,
-      "disk_size": 20480,
-      "disk_type_id": 0,
-      "guest_os_type": "other3xlinux-64",
-      "iso_url": "{{user `iso_file`}}",
-      "iso_checksum": "{{user `iso_sha1sum`}}",
-      "iso_checksum_type": "sha1",
-      "ssh_username": "root",
-      "ssh_password": "{{user `root_password`}}",
-      "ssh_wait_timeout": "60m",
-      "shutdown_command": "shutdown -h now",
-      "http_directory": "scripts",
-      "boot_wait": "5s",
-      "version": 11,
-      "vmx_data": {
-        "scsi0.virtualDev": "pvscsi",
-        "ethernet0.virtualDev": "vmxnet3",
-        "svga.vgaOnly": "true"
-        },
-      "vmx_data_post": {
-        "guestos": "vmware-photon-64",
-        "displayname": "VMware Photon",
-        "usb.present": "false"
-        },
-      "boot_command": [
-        "<esc><wait>",
-        "vmlinuz initrd=initrd.img root=/dev/ram0 loglevel=3 ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/photon-kickstart.json",
-        "<enter>"
-      ]
-    },
-    {
       "name": "vagrant-vmware_desktop",
       "vm_name": "photon",
       "vmdk_name": "photon-disk1",
@@ -109,12 +74,7 @@
     },
     {
       "type": "shell",
-      "only": ["appcatalyst"],
-      "script": "scripts/photon-appcatalyst-user_provisioning.sh"
-    },
-    {
-      "type": "shell",
-      "only": ["vagrant-vmware_desktop", "appcatalyst"],
+      "only": ["vagrant-vmware_desktop"],
       "script": "scripts/photon-sharedfolders_prep.sh"
     },
     {
@@ -129,23 +89,12 @@
       "destination": "/etc/modules-load.d/virtualbox.conf"
     },
     {
-      "type": "file",
-      "only": ["vagrant-vmware_desktop", "vagrant-virtualbox"],
-      "source": "scripts/photon-docker-unit.service",
-      "destination": "/lib/systemd/system/docker.service"
-    },
-    {
       "type": "shell",
       "inline": ["sed -i '/linux/ s/$/ net.ifnames=0/' /boot/grub2/grub.cfg"]
     },
     {
       "type": "shell",
       "inline": ["echo 'GRUB_CMDLINE_LINUX=\"net.ifnames=0\"' >> /etc/default/grub"]
-    },
-    {
-      "type": "shell",
-      "only": ["appcatalyst"],
-      "script": "scripts/photon-setup_docker.sh"
     },
     {
       "type": "shell",
@@ -159,11 +108,6 @@
       "compression_level": 9,
       "vagrantfile_template": "scripts/photon-vagrantfile.rb",
       "output": "photon-{{.BuildName}}.box"
-    },
-    {
-      "type": "compress",
-      "only": ["appcatalyst"],
-      "output": "photon-{{.BuildName}}_build.tar.gz"
     }
   ]
   }
