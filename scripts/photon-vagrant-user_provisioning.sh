@@ -8,6 +8,10 @@ groupadd vagrant
 # Set up a vagrant user and add the insecure key for User to login
 useradd -G vagrant -m vagrant
 
+# Avoid password expiration (https://github.com/vmware/photon-packer-templates/issues/2)
+chage -I -1 -m 0 -M 99999 -E -1 vagrant
+chage -I -1 -m 0 -M 99999 -E -1 root
+
 # Configure a sudoers for the vagrant user
 echo "vagrant ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/vagrant
 
