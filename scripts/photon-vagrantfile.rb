@@ -11,4 +11,7 @@ Vagrant.configure('2') do |config|
       v.vmx['scsi0.virtualDev'] = 'pvscsi'
     end
   end
+  config.vm.provider "virtualbox" do |v|
+    v.customize ['modifyvm', :id, '--acpi', 'off']
+  end
 end
