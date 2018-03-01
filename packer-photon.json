@@ -2,6 +2,7 @@
   "variables": {
     "iso_file": "",
     "iso_sha1sum": "",
+    "product_version": "",
     "root_password": "2RQrZ83i79N6szpvZNX6"
   },
   "builders": [
@@ -99,6 +100,10 @@
     {
       "type": "shell",
       "script": "scripts/photon-security_check.sh"
+    },
+    {
+      "type": "shell",
+      "inline": ["sed -i 's/OS/Linux/' /etc/photon-release"]
     }
   ],
   "post-processors": [
@@ -107,7 +112,7 @@
       "only": ["vagrant-vmware_desktop", "vagrant-virtualbox"],
       "compression_level": 9,
       "vagrantfile_template": "scripts/photon-vagrantfile.rb",
-      "output": "photon-{{.BuildName}}.box"
+      "output": "photon-{{user `product_version`}}-{{.BuildName}}.box"
     }
   ]
   }
