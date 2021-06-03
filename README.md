@@ -34,7 +34,7 @@ There are two build targets available:
 To build only a VMware Workstation/Fusion vagrant box:
 
 ```shell
-packer build -only=vagrant-vmware_desktop -var-file=vars/photon_iso-4.0_GA.json -except=vagrant-cloud packer-photon.json
+packer build -only=vmware_desktop -var-file=vars/photon_iso-4.0_GA.json -except=vagrant-cloud packer-photon.json
 ```
 
 ### Vagrant Cloud
