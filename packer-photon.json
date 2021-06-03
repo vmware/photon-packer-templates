@@ -7,17 +7,16 @@
   },
   "builders": [
     {
-      "name": "vagrant-vmware_desktop",
+      "name": "vmware_desktop",
       "vm_name": "photon",
       "vmdk_name": "photon-disk1",
       "type": "vmware-iso",
       "headless": false,
       "disk_size": 20480,
       "disk_type_id": 0,
-      "guest_os_type": "other3xlinux-64",
+      "guest_os_type": "vmware-photon-64",
       "iso_url": "{{user `iso_file`}}",
-      "iso_checksum": "{{user `iso_sha1sum`}}",
-      "iso_checksum_type": "sha1",
+      "iso_checksum": "sha1:{{user `iso_sha1sum`}}",
       "ssh_username": "root",
       "ssh_password": "{{user `root_password`}}",
       "ssh_wait_timeout": "60m",
@@ -28,19 +27,20 @@
       "vmx_data": {
         "scsi0.virtualDev": "pvscsi",
         "ethernet0.virtualDev": "vmxnet3"
-        },
+      },
       "vmx_data_post": {
         "displayname": "VMware Photon",
         "usb.present": "false"
-        },
-        "boot_command": [
-          "<esc><wait>",
-          "vmlinuz initrd=initrd.img root=/dev/ram0 loglevel=3 ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/photon-kickstart.json",
-          "<enter>"
-        ]
+      },
+      "boot_command": [
+        "<tab><wait> ",
+        "insecure_installation=1 ",
+        "ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks-photon_2.0.json",
+        "<enter>"
+      ]
     },
     {
-      "name": "vagrant-virtualbox",
+      "name": "virtualbox",
       "vm_name": "photon",
       "type": "virtualbox-iso",
       "headless": false,
@@ -48,8 +48,7 @@
       "disk_size": 20480,
       "guest_os_type": "Linux_64",
       "iso_url": "{{user `iso_file`}}",
-      "iso_checksum": "{{user `iso_sha1sum`}}",
-      "iso_checksum_type": "sha1",
+      "iso_checksum": "sha1:{{user `iso_sha1sum`}}",
       "ssh_username": "root",
       "ssh_password": "{{user `root_password`}}",
       "ssh_wait_timeout": "60m",
@@ -57,62 +56,69 @@
       "http_directory": "scripts",
       "shutdown_command": "shutdown -h now",
       "boot_command": [
-        "<esc><wait>",
-        "vmlinuz initrd=initrd.img root=/dev/ram0 loglevel=3 ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/photon-kickstart.json",
+        "<tab><wait> ",
+        "insecure_installation=1 ",
+        "ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks-photon_2.0.json",
         "<enter>"
       ]
     }
   ],
-    "provisioners": [
+  "provisioners": [
     {
       "type": "shell",
-      "script": "scripts/photon-package_provisioning.sh"
+      "script": "scripts/photon-update_packages.sh"
     },
     {
       "type": "shell",
-      "only": ["vagrant-vmware_desktop", "vagrant-virtualbox"],
-      "script": "scripts/photon-vagrant-user_provisioning.sh"
+      "only": [ "vmware_desktop", "virtualbox" ],
+      "script": "scripts/photon-user_provisioning.sh"
     },
     {
       "type": "shell",
-      "only": ["vagrant-vmware_desktop"],
-      "script": "scripts/photon-sharedfolders_prep.sh"
+      "only": [ "vmware_desktop" ],
+      "script": "scripts/photon-vmware_prep.sh"
     },
     {
       "type": "shell",
-      "only": ["vagrant-virtualbox"],
-      "script": "scripts/photon-vagrant-vbox_additions.sh"
+      "only": [ "virtualbox" ],
+      "script": "scripts/photon-virtualbox_prep.sh"
     },
     {
       "type": "file",
-      "only": ["vagrant-virtualbox"],
-      "source": "scripts/photon-virtualbox-load-module.conf",
+      "only": [ "virtualbox" ],
+      "source": "scripts/photon-virtualbox_load_module.conf",
       "destination": "/etc/modules-load.d/virtualbox.conf"
     },
     {
       "type": "shell",
-      "inline": ["sed -i '/linux/ s/$/ net.ifnames=0/' /boot/grub2/grub.cfg"]
+      "inline": [
+        "sed -i '/linux/ s/$/ net.ifnames=0/' /boot/grub2/grub.cfg"
+      ]
     },
     {
       "type": "shell",
-      "inline": ["echo 'GRUB_CMDLINE_LINUX=\"net.ifnames=0\"' >> /etc/default/grub"]
+      "inline": [
+        "echo 'GRUB_CMDLINE_LINUX=\"net.ifnames=0\"' >> /etc/default/grub"
+      ]
     },
     {
       "type": "shell",
-      "script": "scripts/photon-security_check.sh"
+      "script": "scripts/photon-security_lockdown.sh"
     },
     {
       "type": "shell",
-      "inline": ["sed -i 's/OS/Linux/' /etc/photon-release"]
+      "inline": [
+        "sed -i 's/OS/Linux/' /etc/photon-release"
+      ]
     }
   ],
   "post-processors": [
     {
       "type": "vagrant",
-      "only": ["vagrant-vmware_desktop", "vagrant-virtualbox"],
+      "only": [ "vmware_desktop", "virtualbox" ],
       "compression_level": 9,
-      "vagrantfile_template": "scripts/photon-vagrantfile.rb",
+      "vagrantfile_template": "scripts/vagrantfile.tpl",
       "output": "photon-{{user `product_version`}}-{{.BuildName}}.box"
     }
   ]
-  }
+}
