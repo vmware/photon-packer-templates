@@ -1,3 +1,15 @@
-*.tar.gz
+# macOS specific
+.DS_Store*
+
+# Build artifacts
 *.box
+*.vmwarevm
+*.log
+*.tar.gz
+manifest.json
 packer_cache
+output
+
+# Test artifacts
+tmp/
+.vagrant/
