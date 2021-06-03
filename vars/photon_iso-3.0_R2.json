@@ -1,0 +1,7 @@
+{
+  "iso_url": "https://packages.vmware.com/photon/3.0/Rev2/iso/photon-3.0-58f9c74.iso",
+  "iso_checksum": "545a9d0d53cb2109381bd9ae9eb837579f2ef1ee",
+  "iso_checksum_type": "sha1",
+  "photon_version": "3.0",
+  "photon_release": "R2"
+}

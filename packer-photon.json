@@ -1,9 +1,17 @@
 {
   "variables": {
-    "iso_file": "",
-    "iso_sha1sum": "",
-    "product_version": "",
-    "root_password": "2RQrZ83i79N6szpvZNX6"
+    "iso_url": "",
+    "iso_checksum": "",
+    "iso_checksum_type": "",
+    "photon_version": "",
+    "photon_release": "",
+    "vagrant_cloud_user": "{{env `VAGRANT_CLOUD_USER`}}",
+    "vagrant_cloud_token": "{{env `VAGRANT_CLOUD_TOKEN`}}",
+    "vmware_version": "15",
+    "vcpu": "2",
+    "memory": "2048",
+    "storage": "10240",
+    "root_password": "vagrant"
   },
   "builders": [
     {
@@ -12,30 +20,33 @@
       "vmdk_name": "photon-disk1",
       "type": "vmware-iso",
       "headless": false,
-      "disk_size": 20480,
+      "disk_size": "{{user `storage`}}",
       "disk_type_id": 0,
       "guest_os_type": "vmware-photon-64",
-      "iso_url": "{{user `iso_file`}}",
-      "iso_checksum": "sha1:{{user `iso_sha1sum`}}",
+      "iso_url": "{{user `iso_url`}}",
+      "iso_checksum": "{{user `iso_checksum_type`}}:{{user `iso_checksum`}}",
+      "cpus": "{{user `vcpu`}}",
+      "memory": "{{user `memory`}}",
       "ssh_username": "root",
       "ssh_password": "{{user `root_password`}}",
       "ssh_wait_timeout": "60m",
       "boot_wait": "5s",
       "shutdown_command": "shutdown -h now",
       "http_directory": "scripts",
-      "version": 11,
+      "output_directory": "output/photon-{{user `photon_version`}}_{{user `photon_release`}}-{{build_name}}-{{isotime \"060102\"}}",
+      "version": "{{user `vmware_version`}}",
       "vmx_data": {
         "scsi0.virtualDev": "pvscsi",
         "ethernet0.virtualDev": "vmxnet3"
       },
       "vmx_data_post": {
-        "displayname": "VMware Photon",
+        "displayname": "VMware Photon {{user `photon_version`}}",
         "usb.present": "false"
       },
       "boot_command": [
         "<tab><wait> ",
         "insecure_installation=1 ",
-        "ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks-photon_2.0.json",
+        "ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks-photon_{{user `photon_version`}}.json",
         "<enter>"
       ]
     },
@@ -45,20 +56,25 @@
       "type": "virtualbox-iso",
       "headless": false,
       "hard_drive_interface": "scsi",
-      "disk_size": 20480,
+      "disk_size": "{{user `storage`}}",
       "guest_os_type": "Linux_64",
-      "iso_url": "{{user `iso_file`}}",
-      "iso_checksum": "sha1:{{user `iso_sha1sum`}}",
+      "iso_url": "{{user `iso_url`}}",
+      "iso_checksum": "{{user `iso_checksum_type`}}:{{user `iso_checksum`}}",
+      "cpus": "{{user `vcpu`}}",
+      "memory": "{{user `memory`}}",
       "ssh_username": "root",
       "ssh_password": "{{user `root_password`}}",
       "ssh_wait_timeout": "60m",
+      "gfx_controller": "vboxsvga",
+      "gfx_vram_size": "128",
       "boot_wait": "5s",
       "http_directory": "scripts",
+      "output_directory": "output/photon-{{user `photon_version`}}_{{user `photon_release`}}-{{build_name}}-{{isotime \"060102\"}}",
       "shutdown_command": "shutdown -h now",
       "boot_command": [
         "<tab><wait> ",
         "insecure_installation=1 ",
-        "ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks-photon_2.0.json",
+        "ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks-photon_{{user `photon_version`}}.json",
         "<enter>"
       ]
     }
@@ -71,7 +87,9 @@
     {
       "type": "shell",
       "only": [ "vmware_desktop", "virtualbox" ],
-      "script": "scripts/photon-user_provisioning.sh"
+      "script": "scripts/photon-user_provisioning.sh",
+      "pause_after": "10s",
+      "expect_disconnect": true
     },
     {
       "type": "shell",
@@ -84,31 +102,11 @@
       "script": "scripts/photon-virtualbox_prep.sh"
     },
     {
-      "type": "file",
-      "only": [ "virtualbox" ],
-      "source": "scripts/photon-virtualbox_load_module.conf",
-      "destination": "/etc/modules-load.d/virtualbox.conf"
-    },
-    {
       "type": "shell",
-      "inline": [
-        "sed -i '/linux/ s/$/ net.ifnames=0/' /boot/grub2/grub.cfg"
-      ]
-    },
-    {
-      "type": "shell",
-      "inline": [
-        "echo 'GRUB_CMDLINE_LINUX=\"net.ifnames=0\"' >> /etc/default/grub"
-      ]
-    },
-    {
-      "type": "shell",
-      "script": "scripts/photon-security_lockdown.sh"
-    },
-    {
-      "type": "shell",
-      "inline": [
-        "sed -i 's/OS/Linux/' /etc/photon-release"
+      "only": [ "vmware_desktop", "virtualbox" ],
+      "scripts": [
+        "scripts/photon-security_lockdown.sh",
+        "scripts/photon-complete_setup.sh"
       ]
     }
   ],
@@ -118,7 +116,14 @@
       "only": [ "vmware_desktop", "virtualbox" ],
       "compression_level": 9,
       "vagrantfile_template": "scripts/vagrantfile.tpl",
-      "output": "photon-{{user `product_version`}}-{{.BuildName}}.box"
+      "output": "output/photon-{{user `photon_version`}}_{{user `photon_release`}}-{{build_name}}-{{isotime \"060102\"}}.box"
+    },
+    {
+      "type": "vagrant-cloud",
+      "box_tag": "{{user `vagrant_cloud_user`}}/photon",
+      "access_token": "{{user `vagrant_cloud_token`}}",
+      "version": "{{user `photon_version`}}.{{isotime \"060102\"}}",
+      "version_description": "Built on: {{isotime \"2006-01-02\"}}"
     }
   ]
 }

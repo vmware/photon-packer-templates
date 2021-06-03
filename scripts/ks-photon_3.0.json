@@ -1,15 +1,22 @@
 {
+  "arch": "x86_64",
+  "bootmode": "dualboot",
   "disk": "/dev/sda",
-  "hostname": "photon2",
+  "hostname": "photon3",
+  "linux_flavor": "linux",
+  "network": {
+    "type": "dhcp"
+  },
+  "packagelist_file": "packages_minimal.json",
   "password": {
+    "age": -1,
     "crypted": true,
     "text": "$1$vagrant$I4pvEJo5vdKqeokP0vb9t/"
   },
   "postinstall": [
-    "#/bin/ls /etc/yum.repos.d/* | /bin/grep -v iso | /bin/xargs -n1 /bin/sed -i 's#http.*/#https://packages.vmware.com/photon/$releasever/#'",
     "/bin/sed -i 's/PermitRootLogin no/PermitRootLogin yes/g' /etc/ssh/sshd_config",
     "/bin/systemctl daemon-reload",
     "/bin/systemctl restart sshd.service"
   ],
-  "type": "minimal"
+  "ui": true
 }

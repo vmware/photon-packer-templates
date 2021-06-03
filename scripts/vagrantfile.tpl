@@ -1,6 +1,7 @@
-Vagrant.require_version '>= 1.6.2'
+Vagrant.require_version '>= 2.0.0'
 
 Vagrant.configure('2') do |config|
+  config.vm.synced_folder '.', '/vagrant', disabled: true
   # We don't have NFS working inside Photon.
   config.nfs.functional = false
 
@@ -17,3 +18,4 @@ Vagrant.configure('2') do |config|
     v.customize ['modifyvm', :id, '--acpi', 'off']
   end
 end
+

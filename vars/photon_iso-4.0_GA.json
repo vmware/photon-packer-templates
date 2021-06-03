@@ -1,0 +1,7 @@
+{
+  "iso_url": "https://packages.vmware.com/photon/4.0/GA/iso/photon-4.0-1526e30ba.iso",
+  "iso_checksum": "2221ab214b517a15c60bd5e2aacdb9388581bcd9",
+  "iso_checksum_type": "sha1",
+  "photon_version": "4.0",
+  "photon_release": "GA"
+}

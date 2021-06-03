@@ -1,0 +1,7 @@
+{
+  "iso_url": "https://packages.vmware.com/photon/3.0/GA/iso/photon-3.0-26156e2.iso",
+  "iso_checksum": "1c38dd6d00e11d3cbf7768ce93fc3eb8913a9673",
+  "iso_checksum_type": "sha1",
+  "photon_version": "3.0",
+  "photon_release": "GA"
+}
