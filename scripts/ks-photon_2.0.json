@@ -6,7 +6,6 @@
     "text": "$1$vagrant$I4pvEJo5vdKqeokP0vb9t/"
   },
   "postinstall": [
-    "#/bin/ls /etc/yum.repos.d/* | /bin/grep -v iso | /bin/xargs -n1 /bin/sed -i 's#http.*/#https://packages.vmware.com/photon/$releasever/#'",
     "/bin/sed -i 's/PermitRootLogin no/PermitRootLogin yes/g' /etc/ssh/sshd_config",
     "/bin/systemctl daemon-reload",
     "/bin/systemctl restart sshd.service"
