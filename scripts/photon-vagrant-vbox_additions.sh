@@ -1,4 +1,4 @@
- #!/bin/sh
+#!/bin/sh
 
 # Install VBoxAdditions
 
@@ -10,12 +10,12 @@ tdnf --assumeyes install gawk
 tdnf --assumeyes install make
 tdnf --assumeyes install gcc
 tdnf --assumeyes install tar
-tdnf --assumeyes install linux-dev
+tdnf --assumeyes install linux-devel-$(uname -r)
 tdnf --assumeyes install binutils
 tdnf --assumeyes install linux-api-headers
 
 mkdir /tmp/virtualbox
-mount -o loop /root/VBoxGuestAdditions.iso /tmp/virtualbox
+mount -r -o loop /root/VBoxGuestAdditions.iso /tmp/virtualbox
 sh /tmp/virtualbox/VBoxLinuxAdditions.run
 umount /tmp/virtualbox
 rmdir /tmp/virtualbox
@@ -23,19 +23,22 @@ rm /root/VBoxGuestAdditions.iso
 
 # Remove packages
 tdnf --assumeyes erase linux-api-headers
-tdnf --assumeyes erase linux-dev
+tdnf --assumeyes erase linux-devel-$(uname -r)
 tdnf --assumeyes erase tar
 tdnf --assumeyes erase gcc
+tdnf --assumeyes erase libgcc-atomic
 tdnf --assumeyes erase libgcc-devel
-tdnf --assumeyes erase libgomp-devel
+tdnf --assumeyes erase libgomp libgomp-devel
 tdnf --assumeyes erase libstdc++-devel
 tdnf --assumeyes erase mpc
 tdnf --assumeyes erase make
-tdnf --assumeyes erase binutils
-tdnf --assumeyes erase flex
+tdnf --assumeyes erase binutils binutils-libs
 tdnf --assumeyes erase m4
 tdnf --assumeyes erase open-vm-tools
-tdnf --assumeyes erase perl-DBI
+tdnf --assumeyes erase perl perl-DBI
+
+# Make sure bc is still installed
+tdnf --assumeyes install bc
 
 echo "Compacting disk space"
 FileSystem=`grep ext /etc/mtab| awk -F" " '{ print $2 }'`
@@ -52,8 +55,6 @@ do
         sleep 15
         rm -f $i/zf
 done
-
-tdnf --assumeyes erase gawk
 
 # Remove tdnf cache
 rm -rf /var/cache/tdnf/*

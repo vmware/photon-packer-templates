@@ -3,7 +3,7 @@
 
 ## Prerequisites
 
-* [Packer](http://packer.io) > 0.8
+* [Packer](http://packer.io) > 1.7.x
 * VMware Fusion or Workstation
 * Virtualbox (optional)
 
@@ -20,30 +20,34 @@ Preset JSONs with the required parameters are provided in vars folder.
 To kick off a full build using a preset:
 
 ```shell
-packer build -var-file=vars/iso-2.0GA.json packer-photon.json
+packer build -var-file=vars/iso-4.0GA.json packer-photon.json.pkr.hcl
 ```
+
+   "product_version" : "4.0GA",
+   "iso_sha1sum" : "sha1:7e834b8b152e12fd7556e4e8e0e26f6ab5bf2737",
+   "iso_file" : "https://packages.vmware.com/photon/4.0/GA/iso/photon-minimal-4.0-1526e30ba.iso"
 
 or manually:
 ```shell
 packer build \
-        -var 'iso_file=https://bintray.com/artifact/download/vmware/photon/iso/1.0TP2/x86_64/photon-minimal-1.0TP2.iso' \
-        -var 'iso_sha1sum=a47567368458acd8c8ef5f1e3f793c5329063dac' \
-        -var 'product_version=1.0TP2' \
+        -var 'iso_file=https://packages.vmware.com/photon/4.0/GA/iso/photon-minimal-4.0-1526e30ba.iso' \
+        -var 'iso_sha1sum=sha1:7e834b8b152e12fd7556e4e8e0e26f6ab5bf2737' \
+        -var 'product_version=4.0GA' \
         packer-photon.json
 ```
 
 To build only a VMware workstation/fusion vagrant box:
 ```shell
-packer build -only=vagrant-vmware_desktop -var-file=vars/iso-2.0GA.json packer-photon.json
+packer build -only=vmware-iso.vagrant-vmware_desktop -var-file=vars/iso-4.0GA.json packer-photon.json.pkr.hcl
 ```
 or:
 ```shell
 packer build \
-       -only=vagrant-vmware_desktop \
-       -var 'iso_file=https://bintray.com/artifact/download/vmware/photon/iso/1.0TP2/x86_64/photon-minimal-1.0TP2.iso' \
-       -var 'iso_sha1sum=a47567368458acd8c8ef5f1e3f793c5329063dac' \
-       -var 'product_version=1.0TP2' \
-       packer-photon.json
+        -only=vmware-iso.vagrant-vmware_desktop \
+        -var 'iso_file=https://packages.vmware.com/photon/4.0/GA/iso/photon-minimal-4.0-1526e30ba.iso' \
+        -var 'iso_sha1sum=sha1:7e834b8b152e12fd7556e4e8e0e26f6ab5bf2737' \
+        -var 'product_version=4.0GA' \
+        packer-photon.json
 ```
 
 There are two build targets available:
@@ -53,7 +57,7 @@ There are two build targets available:
 
 ## Legal
 
-Copyright © 2015 VMware, Inc.  All Rights Reserved.
+Copyright © 2015-2021 VMware, Inc.  All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the “License”); you may not
 use this file except in compliance with the License.  You may obtain a copy of
