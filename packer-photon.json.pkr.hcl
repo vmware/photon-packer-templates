@@ -53,14 +53,13 @@ source "vmware-iso" "vagrant-vmware" {
   disk_adapter_type    = "pvscsi"
   disk_size            = var.disk_size
   disk_type_id         = 0
-  guest_os_type        = "other3xlinux-64"
+  guest_os_type        = "vmware-photon-64"
   headless             = false
   http_directory       = "scripts"
   iso_checksum         = "${var.iso_sha1sum}"
   iso_url              = "${var.iso_file}"
   memory               = var.memory_size
   network_adapter_type = "vmxnet3"
-  serial               = "FILE:serial.output"
   shutdown_command     = "shutdown -h now"
   ssh_password         = "${var.root_password}"
   ssh_username         = "root"
