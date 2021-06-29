@@ -38,12 +38,12 @@ packer build \
 
 To build only a VMware workstation/fusion vagrant box:
 ```shell
-packer build -only=vmware-iso.vagrant-vmware_desktop -var-file=vars/iso-4.0GA.json packer-photon.json.pkr.hcl
+packer build -only=vmware-iso.vagrant-vmware -var-file=vars/iso-4.0GA.json packer-photon.json.pkr.hcl
 ```
 or:
 ```shell
 packer build \
-        -only=vmware-iso.vagrant-vmware_desktop \
+        -only=vmware-iso.vagrant-vmware \
         -var 'iso_file=https://packages.vmware.com/photon/4.0/GA/iso/photon-minimal-4.0-1526e30ba.iso' \
         -var 'iso_sha1sum=sha1:7e834b8b152e12fd7556e4e8e0e26f6ab5bf2737' \
         -var 'product_version=4.0GA' \
@@ -52,7 +52,7 @@ packer build \
 
 There are two build targets available:
 
-1. `vagrant-vmware_desktop` - Generates the `vmware_desktop` compatible box found on Atlas as [`vmware/photon`](https://atlas.hashicorp.com/vmware/photon).
+1. `vagrant-vmware` - Generates the `vmware_desktop` compatible box found on Atlas as [`vmware/photon`](https://atlas.hashicorp.com/vmware/photon).
 1. `vagrant-virtualbox` - Generates the `virtualbox` compatible box found on Atlas as [`vmware/photon`](https://atlas.hashicorp.com/vmware/photon).
 
 ## Legal
