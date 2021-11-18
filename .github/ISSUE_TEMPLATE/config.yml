@@ -1,0 +1,17 @@
+blank_issues_enabled: false
+contact_links:
+  - name: VMware Photon OS Documentation
+    url: https://vmware.github.io/photon/docs/
+    about: Having trouble with VMware Photon OS? Check out the product documentation.
+  - name: VMware Fusion Documentation
+    url: https://docs.vmware.com/en/VMware-Fusion/index.html
+    about: Having trouble with VMware Fusion? Check out the product documentation.
+  - name: VMware Workstation Pro Documentation
+    url: https://docs.vmware.com/en/VMware-Workstation-Pro/index.html
+    about: Having trouble with VMware Workstation Pro? Check out the product documentation.
+  - name: Packer Documentation
+    url: https://www.packer.io/docs
+    about: Having trouble with Packer? Check out the product documentation.
+  - name: Vagrant Documentation
+    url: https://www.vagrantup.com/docs
+    about: Having trouble with the Vagrant? Check out the product documentation.

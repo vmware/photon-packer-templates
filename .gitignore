@@ -1,3 +1,18 @@
-*.tar.gz
+# MacOS
+## Ignore desktop services files.
+**/.DS_Store
+
+# Packer
+## Ignore cache directories.
+packer_cache/
+## Ignore crash log files.
+crash.log
+## Ignore Vagrant boxes.
 *.box
-packer_cache
+
+# Vagrant
+## Ignore Vagrant outputs.
+/output-*
+## Ignore Vagrant boxes.
+*.box
+**/.vagrant
