@@ -16,7 +16,7 @@ body:
   - type: input
     id: version-hypervisor
     attributes:
-      label: VMware vSphere
+      label: Hypervisor
       description: Please provide the provider and version.
       placeholder: VMware Fusion Professional 12.2
     validations:
@@ -38,7 +38,7 @@ body:
     validations:
       required: false
   - type: input
-    id: version-packer-vsphere
+    id: version-packer-vmware
     attributes:
       label: HashiCorp Packer Plugin for VMware
       description: Please provide the HashiCorp Packer Plugin for VMware version.
@@ -54,7 +54,7 @@ body:
     validations:
       required: false
   - type: input
-    id: version-vagrant-vmware-pluging
+    id: version-vagrant-vmware-utility
     attributes:
       label: HashiCorp Vagrant VMware Utility
       description: Please provide the HashiCorp Vagrant VMware Utility version. 
@@ -62,7 +62,7 @@ body:
     validations:
       required: false
   - type: input
-    id: version-vagrant-vmware-pluging
+    id: version-vagrant-vmware-plugin
     attributes:
       label: HashiCorp Vagrant plugin for VMware
       description: Please provide the HashiCorp Vagrant plugin for VMware version. `vagrant plugin list`
