@@ -2,13 +2,9 @@
 
 # Packer Templates for VMware Photon OS
 
-<img alt="VMware Fusion" src="https://img.shields.io/badge/VMware%20Fusion-12+-blue?style=for-the-badge"> 
-<img alt="VMware Workstation Pro" src="https://img.shields.io/badge/VMware%20Workstation%20Pro-16+-blue?style=for-the-badge">
-<img alt="VirtualBox" src="https://img.shields.io/badge/VirtualBox-6.1+-blue?style=for-the-badge"><br/>
+<img alt="VMware Fusion" src="https://img.shields.io/badge/VMware%20Fusion-12+-blue?style=for-the-badge"> <img alt="VMware Workstation Pro" src="https://img.shields.io/badge/VMware%20Workstation%20Pro-16+-blue?style=for-the-badge"> <img alt="VirtualBox" src="https://img.shields.io/badge/VirtualBox-6.1+-blue?style=for-the-badge"><br/>
 <img alt="Packer" src="https://img.shields.io/badge/Packer-1.7.8+-blue?style=for-the-badge&logo=packer">
 <img alt="Vagrant" src="https://img.shields.io/badge/Vagrant-2.2.19+-blue?style=for-the-badge&logo=vagrant">
-
-<br/>
 
 ## Introduction
 
