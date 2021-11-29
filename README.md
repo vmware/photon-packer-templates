@@ -120,7 +120,7 @@ Clone the project repository.
 
 4.  Modify the Overrides (Optional)
 
-    The project sets input defaults in the `variables.pkr.hcl`. You can override the defaults by editing the `override.okr.hcl` file and uncommenting the relevent overrides.
+    The project sets input defaults in the `variables.pkr.hcl`. You can override the defaults by editing the `override.pkr.hcl` file and uncommenting the relevent overrides.
 
     ```hcl
     # Override the default input variable values.
