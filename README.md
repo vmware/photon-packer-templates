@@ -141,7 +141,7 @@ Clone the project repository.
 
 ## Build
 
-You can use the included `Makefile` to validate and build the all or specific machine images.
+You can use the included `Makefile` to validate and build the all or specific machine images on macOS and Linux:
 
 ```shell
 > make
@@ -179,39 +179,90 @@ make build
 make build-vmware-iso.vagrant-vmw
 ```
 
-Alternatively, you can manually initilize, validate, and build.
+Alternatively, you can manually initilize, validate, and build on macOS, Linux, and Windows.
 
 **Example**: Initialize for all targets.
 
-```shell
-packer init -var-file=photon-4.0-R1.pkrvars.hcl .
-```
+* macOS and Linux:
+
+  ```shell
+  packer init -var-file=photon-4.0-R1.pkrvars.hcl .
+  ```
+
+* Windows:
+
+  ```powershell
+  packer init -var-file .\photon-4.0-R1.pkrvars.hcl .
+  ```
+
 **Example**: Validate all targets.
 
-```shell
-packer validate -var-file=photon-4.0-R1.pkrvars.hcl .
-```
+* macOS and Linux:
+
+  ```shell
+  packer validate -var-file=photon-4.0-R1.pkrvars.hcl .
+  ```
+
+* Windows:
+
+  ```powershell
+  packer validate -var-file .\photon-4.0-R1.pkrvars.hcl .
+  ```
+
 **Example**: Build all targets.
 
-```shell
-packer build --force -var-file=photon-4.0-R1.pkrvars.hcl .
-```
+* macOS and Linux:
+
+  ```shell
+  packer build --force -var-file=photon-4.0-R1.pkrvars.hcl .
+  ```
+
+* Windows:
+
+  ```shell
+  packer build --force -var-file .\photon-4.0-R1.pkrvars.hcl .
+  ```
 
 **Example**: Build only the VMware Fusion / Workstation Pro target.
 
-```shell
-packer build --force -only=vmware-iso.vagrant-vmw -var-file=photon-4.0-R1.pkrvars.hcl .
-```
+* macOS and Linux:
+
+  ```shell
+  packer build --force -only=vmware-iso.vagrant-vmw -var-file=photon-4.0-R1.pkrvars.hcl .
+  ```
+* Windows:
+
+  ```powershell
+  packer build --force -only vmware-iso.vagrant-vmw -var-file .\photon-4.0-R1.pkrvars.hcl .
+  ```
+
 **Example**: Build only the VirtualBox target.
 
-```shell
-packer build --force -only=virtualbox-iso.vagrant-vbx -var-file=photon-4.0-R1.pkrvars.hcl .
-```
+* macOS and Linux:
+
+  ```shell
+  packer build --force -only=virtualbox-iso.vagrant-vbx -var-file=photon-4.0-R1.pkrvars.hcl .
+  ```
+
+* Windows
+
+  ```powershell
+  packer build --force -only virtualbox-iso.vagrant-vbx -var-file .\photon-4.0-R1.pkrvars.hcl .
+  ```
+
 **Example**: Build only the VMware Fusion / Workstation Pro target with an input variable override for the VMware Photon OS Developer package list.
 
-```shell
-packer build --force -var os_packagelist=developer -only=vmware-iso.vagrant-vmw -var-file=photon-4.0-R1.pkrvars.hcl .
-```
+* macOS and Linux:
+
+  ```shell
+  packer build --force -var os_packagelist=developer -only=vmware-iso.vagrant-vmw -var-file=photon-4.0-R1.pkrvars.hcl .
+  ```
+
+* Windows:
+
+  ```powershell
+  packer build --force -var os_packagelist=developer -only vmware-iso.vagrant-vmw -var-file .\photon-4.0-R1.pkrvars.hcl .
+  ```
 
 ## Run
 
