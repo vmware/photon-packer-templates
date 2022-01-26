@@ -16,7 +16,8 @@ All examples are authored in the HashiCorp Configuration Language ("HCL2").
 
 The following builds are available:
 
-* VMware Photon OS 4.0 R1 (default)
+* VMware Photon OS 4.0 R2 (default)
+* VMware Photon OS 4.0 R1
 * VMware Photon OS 3.0 R3
 
 ## Requirements
@@ -107,10 +108,10 @@ Clone the project repository.
     // VMware Photon OS Settings
 
     os_version         = "4.0"
-    os_release         = "R1"
+    os_release         = "R2"
     iso_checksum_type  = "sha1"
-    iso_checksum_value = "bec6359661b43ff15ac02b037f8028ae116dadb3"
-    iso_url            = "https://packages.vmware.com/photon/4.0/Rev1/iso/photon-4.0-ca7c9e933.iso"
+    iso_checksum_value = "eeb08738209bf77306268d63b834fd91f6cecdfb"
+    iso_url            = "https://packages.vmware.com/photon/4.0/Rev2/iso/photon-4.0-c001795b8.iso"
 
     // VirtualBox Guest Additions
 
@@ -186,13 +187,13 @@ Alternatively, you can manually initilize, validate, and build on macOS, Linux, 
 * macOS and Linux:
 
   ```shell
-  packer init -var-file=photon-4.0-R1.pkrvars.hcl .
+  packer init -var-file=photon-4.0-R2.pkrvars.hcl .
   ```
 
 * Windows:
 
   ```powershell
-  packer init -var-file .\photon-4.0-R1.pkrvars.hcl .
+  packer init -var-file .\photon-4.0-R2.pkrvars.hcl .
   ```
 
 **Example**: Validate all targets.
@@ -200,13 +201,13 @@ Alternatively, you can manually initilize, validate, and build on macOS, Linux, 
 * macOS and Linux:
 
   ```shell
-  packer validate -var-file=photon-4.0-R1.pkrvars.hcl .
+  packer validate -var-file=photon-4.0-R2.pkrvars.hcl .
   ```
 
 * Windows:
 
   ```powershell
-  packer validate -var-file .\photon-4.0-R1.pkrvars.hcl .
+  packer validate -var-file .\photon-4.0-R2.pkrvars.hcl .
   ```
 
 **Example**: Build all targets.
@@ -214,13 +215,13 @@ Alternatively, you can manually initilize, validate, and build on macOS, Linux, 
 * macOS and Linux:
 
   ```shell
-  packer build --force -var-file=photon-4.0-R1.pkrvars.hcl .
+  packer build --force -var-file=photon-4.0-R2.pkrvars.hcl .
   ```
 
 * Windows:
 
   ```shell
-  packer build --force -var-file .\photon-4.0-R1.pkrvars.hcl .
+  packer build --force -var-file .\photon-4.0-R2.pkrvars.hcl .
   ```
 
 **Example**: Build only the VMware Fusion / Workstation Pro target.
@@ -228,12 +229,12 @@ Alternatively, you can manually initilize, validate, and build on macOS, Linux, 
 * macOS and Linux:
 
   ```shell
-  packer build --force -only=vmware-iso.vagrant-vmw -var-file=photon-4.0-R1.pkrvars.hcl .
+  packer build --force -only=vmware-iso.vagrant-vmw -var-file=photon-4.0-R2.pkrvars.hcl .
   ```
 * Windows:
 
   ```powershell
-  packer build --force -only vmware-iso.vagrant-vmw -var-file .\photon-4.0-R1.pkrvars.hcl .
+  packer build --force -only vmware-iso.vagrant-vmw -var-file .\photon-4.0-R2.pkrvars.hcl .
   ```
 
 **Example**: Build only the VirtualBox target.
@@ -241,13 +242,13 @@ Alternatively, you can manually initilize, validate, and build on macOS, Linux, 
 * macOS and Linux:
 
   ```shell
-  packer build --force -only=virtualbox-iso.vagrant-vbx -var-file=photon-4.0-R1.pkrvars.hcl .
+  packer build --force -only=virtualbox-iso.vagrant-vbx -var-file=photon-4.0-R2.pkrvars.hcl .
   ```
 
 * Windows
 
   ```powershell
-  packer build --force -only virtualbox-iso.vagrant-vbx -var-file .\photon-4.0-R1.pkrvars.hcl .
+  packer build --force -only virtualbox-iso.vagrant-vbx -var-file .\photon-4.0-R2.pkrvars.hcl .
   ```
 
 **Example**: Build only the VMware Fusion / Workstation Pro target with an input variable override for the VMware Photon OS Developer package list.
@@ -255,13 +256,13 @@ Alternatively, you can manually initilize, validate, and build on macOS, Linux, 
 * macOS and Linux:
 
   ```shell
-  packer build --force -var os_packagelist=developer -only=vmware-iso.vagrant-vmw -var-file=photon-4.0-R1.pkrvars.hcl .
+  packer build --force -var os_packagelist=developer -only=vmware-iso.vagrant-vmw -var-file=photon-4.0-R2.pkrvars.hcl .
   ```
 
 * Windows:
 
   ```powershell
-  packer build --force -var os_packagelist=developer -only vmware-iso.vagrant-vmw -var-file .\photon-4.0-R1.pkrvars.hcl .
+  packer build --force -var os_packagelist=developer -only vmware-iso.vagrant-vmw -var-file .\photon-4.0-R2.pkrvars.hcl .
   ```
 
 ## Run
@@ -272,7 +273,7 @@ After you have created the Vagrant boxes for VMware Photon OS, you can bring the
 
 ```shell
 cd output
-vagrant init photon-4.0-R1-minimal-vagrant-vmw.box
+vagrant init photon-4.0-R2-minimal-vagrant-vmw.box
 vagrant up --provider vmware_desktop
 ```
 
@@ -280,7 +281,7 @@ vagrant up --provider vmware_desktop
 
 ```shell
 cd output
-vagrant init photon-4.0-R1-minimal-vagrant-vbx.box
+vagrant init photon-4.0-R2-minimal-vagrant-vbx.box
 vagrant up --provider virtualbox
 ```
 
@@ -298,7 +299,7 @@ Edit the `Vagrantfile` to manage the share folders.
 
 ```shell
 Vagrant.configure("2") do |config|
-  config.vm.box = "photon-4.0-R1-minimal-vagrant-vmw.box"
+  config.vm.box = "photon-4.0-R2-minimal-vagrant-vmw.box"
   config.vm.synced_folder '.', '/vagrant', disabled: false
 end
 ```
@@ -308,7 +309,7 @@ Edit the `Vagrantfile` to modify additional provider configurations, such as CPU
 
 ```shell
 Vagrant.configure("2") do |config|
-  config.vm.box = "photon-4.0-R1-minimal-vagrant-vmw.box"
+  config.vm.box = "photon-4.0-R2-minimal-vagrant-vmw.box"
   config.vm.provider "vmware_desktop" do |v|
     v.vmx["numvcpus"] = "2"
     v.vmx["memsize"] = "2048"

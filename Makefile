@@ -9,7 +9,7 @@
 
 THIS_FILE               := $(lastword $(MAKEFILE_LIST))
 
-PACKER_VAR_FILE         := photon-4.0-R1.pkrvars.hcl
+PACKER_VAR_FILE         := photon-4.0-R2.pkrvars.hcl
 PACKER_ARGS             := -var-file=$(PACKER_VAR_FILE) .
 PACKER_BUILDERS         := vmware-iso.vagrant-vmw virtualbox-iso.vagrant-vbx
 
