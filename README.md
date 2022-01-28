@@ -22,9 +22,9 @@ The following builds are available:
 
 ## Requirements
 
-* [HashiCorp Packer](https://packer.io) 1.7.8 or later
-  - Packer Plugin for VMware ( `vmware-iso` ) 1.0.3 or later
-  - Packer Plugin for Virtualbox ( `virtualbox-iso` ) 1.0.3 or later (Optional)
+* [HashiCorp Packer](https://packer.io) 1.7.9 or later
+  - Packer Plugin for VMware ( `vmware-iso` ) 1.0.5 or later
+  - Packer Plugin for Virtualbox ( `virtualbox-iso` ) 1.0.1 or later (Optional)
  
       > Required Packer plugins are automatically downloaded and initialized when using the `Makefile`. 
       > 
@@ -174,7 +174,7 @@ For dark sites, you may download the plugins and place these same directory as y
 ```shell
 make build 
 ```
-**Example**: Build only the VMware VMware Fusion / Workstation Pro target.
+**Example**: Build only the VMware Fusion / Workstation Pro target.
 
 ```shell
 make build-vmware-iso.vagrant-vmw

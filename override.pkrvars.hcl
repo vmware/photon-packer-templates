@@ -2,8 +2,8 @@
 
 # os_packagelist           = "minimal"
 # vm_name                  = "photon"
-# guest_additions_url      = "https://download.virtualbox.org/virtualbox/6.1.28/VBoxGuestAdditions_6.1.28.iso"
-# guest_additions_checksum = "eab85206cfb9d7087982deb2635d19a4244a3c6783622a4817fb1a31e48e98e5"
+# guest_additions_url      = "https://download.virtualbox.org/virtualbox/6.1.32/VBoxGuestAdditions_6.1.32.iso"
+# guest_additions_checksum = "3ab8d64c209d89ffc48e71df68ac0da2cf76074579ffaf2dba008ddbef44129c"
 # ssh_password             = "VMw@re123!"
 # ssh_timeout              = "15m"
 # boot_wait                = "3s"
