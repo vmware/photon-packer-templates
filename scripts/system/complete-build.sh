@@ -11,6 +11,12 @@
 /bin/echo 'GRUB_CMDLINE_LINUX=\"net.ifnames=0\"' >> /etc/default/grub
 /bin/sed -i 's/OS/Linux/' /etc/photon-release
 
+# Clean the machine-id.
+
+/bin/truncate -s 0 /etc/machine-id
+/bin/rm /var/lib/dbus/machine-id
+/bin/ln -s /etc/machine-id /var/lib/dbus/machine-id
+
 # Zero out disk space.
 
 /bin/echo "> Zeroing out disk space..."
