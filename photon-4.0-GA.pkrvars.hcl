@@ -6,5 +6,5 @@ iso_checksum_value = "2221ab214b517a15c60bd5e2aacdb9388581bcd9"
 iso_url            = "https://packages.vmware.com/photon/4.0/GA/iso/photon-4.0-1526e30ba.iso"
 
 // VirtualBox Guest 
-guest_additions_url      = "https://download.virtualbox.org/virtualbox/6.1.32/VBoxGuestAdditions_6.1.32.iso"
-guest_additions_checksum = "3ab8d64c209d89ffc48e71df68ac0da2cf76074579ffaf2dba008ddbef44129c"
+guest_additions_url      = "https://download.virtualbox.org/virtualbox/6.1.40/VBoxGuestAdditions_6.1.40.iso"
+guest_additions_checksum = "d456c559926f1a8fdd7259056e0a50f12339fd494122cf30db7736e2032970c6"
