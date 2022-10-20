@@ -7,14 +7,14 @@
 //  The Packer configuration.
 
 packer {
-  required_version = ">= 1.7.9"
+  required_version = ">= 1.8.3"
   required_plugins {
     vmware = {
-      version = ">= v1.0.5"
+      version = ">= v1.0.7"
       source  = "github.com/hashicorp/vmware"
     }
     virtualbox = {
-      version = ">= v1.0.1"
+      version = ">= v1.0.4"
       source  = "github.com/hashicorp/virtualbox"
     }
   }
