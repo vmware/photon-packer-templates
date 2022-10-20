@@ -1,3 +1,4 @@
+---
 name: Bug Report
 description: Is something not working as expected? Submit a bug.
 title: "[BUG] REPLACE WITH A SHORT DESCRIPTION"
@@ -17,32 +18,40 @@ body:
     id: version-hypervisor
     attributes:
       label: Hypervisor
-      description: Please provide the provider and version.
-      placeholder: VMware Fusion Professional 12.2
+      description: Please provide the hypervisor and version.
+      placeholder: VMware Fusion 12
     validations:
-      required: false
+      required: true
   - type: input
     id: os
     attributes:
       label: Operating System
-      description: Please provide the host operating system.
-      placeholder: macOS Big Sur (Intel)
+      description: Please provide the Packer host operating system.
+      placeholder: macOS 12 (Intel)
     validations:
-      required: false
+      required: true
   - type: input
     id: version-packer
     attributes:
       label: HashiCorp Packer
       description: Please provide the HashiCorp Packer version.
-      placeholder: 1.7.8
+      placeholder: 1.8.3
     validations:
-      required: false
+      required: true
   - type: input
     id: version-packer-vmware
     attributes:
       label: HashiCorp Packer Plugin for VMware
       description: Please provide the HashiCorp Packer Plugin for VMware version.
-      placeholder: 1.0.3
+      placeholder: 1.0.7
+    validations:
+      required: false
+  - type: input
+    id: version-packer-virtualbox
+    attributes:
+      label: HashiCorp Packer Plugin for Virtualbox
+      description: Please provide the HashiCorp Packer Plugin for Virtualbox version.
+      placeholder: 1.0.4
     validations:
       required: false
   - type: input
@@ -50,9 +59,9 @@ body:
     attributes:
       label: HashiCorp Vagrant
       description: Please provide the HashiCorp Vagrant version. `vagrant version`
-      placeholder: 2.2.19
+      placeholder: 2.3.1
     validations:
-      required: false
+      required: true
   - type: input
     id: version-vagrant-vmware-utility
     attributes:
@@ -90,7 +99,6 @@ body:
       description: |
         What is it you expected to happen?
         This should be a description of how the functionality you tried to use is supposed to work.
-      placeholder:
     validations:
       required: true
   - type: textarea
